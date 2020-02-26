@@ -23,17 +23,17 @@ public class SimpleList {
 	public SimpleList() {
 		list = new int[10];
 		count = 0;		
+		
 	}
 	
 /**
- * Adds a number to the beginning of the array, list. If there is 10 elements in the array, the last element falls off
- * and a number is added to the beginning of the array. 
+ * Adds a number to the beginning of the array, list. If the array is full, then the array size is increased by 50%.
  * 
  * @param number 	the integer that is added to the array, list
  */
 	public void add(int number) {
 		
-		if(count < 10) {
+		if(count < list.length) {
 			
 			for(int index = count-1; index >= 0; index--) {
 			
@@ -41,24 +41,41 @@ public class SimpleList {
 				
 			}
 			count ++;
+			list[0] = number;
 		} 
 		else{
+
+			count++;
+			int newSize = (int) (count * 0.5) + list.length;
+			int[] newlist = new int[newSize];
 			
-			for(int index = count-2; index >= 0; index--) {
+			for(int index = 0; index < list.length; index++) {
 				
-				list[index + 1] = list[index];
+				newlist[index]=list[index];
+			}
+			
+			for(int index = count-1; index >= 0; index--) {
+				
+				newlist[index + 1] = newlist[index];
 				
 			}
-
+			newlist[0]=number;
+			
+			list = new int[newSize];
+			
+			for(int index = 0; index < list.length; index++) {
+				
+				list[index]=newlist[index];
+				
+			}
 		}
-		
-		list[0] = number;
 		
 	}
 
 /**
  * Removes the first occurrence of the number from the array, list. If the number to be removed is in the list, 
- * the right element takes the index of the number to be removed. Then everything is shifted to the left.
+ * the right element takes the index of the number to be removed. Then everything is shifted to the left. If more than
+ * 25% of the array is empty then the array size is decreased by 25%.
  * 
  * @param number	the number to delete from the array, list.  If number at the end of the list, the 
  * 					number of elements is subtracted by 1, so when the array is displayed the last integer 
@@ -85,7 +102,27 @@ public class SimpleList {
 				count--;
 				}
 			}
-		}	
+		}
+		
+		if((list.length-count) > (list.length * 0.25)) {
+			
+			int newSize = (int) (list.length - (int) (list.length * 0.25));
+			
+			int [] newlist = new int[newSize];
+			
+			for(int index = 0; index < newlist.length; index++) {
+				newlist[index]=list[index];
+			}
+			
+			list = new int[newSize];
+			
+			for(int index = 0; index < newlist.length; index++) {
+				
+				list[index]=newlist[index];
+				
+			}
+			
+		}
 	}
 	
 /**
@@ -138,5 +175,6 @@ public class SimpleList {
 		}
 		return -1;
 	}
+		
 	
 }
