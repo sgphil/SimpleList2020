@@ -111,6 +111,7 @@ public class SimpleList {
 			int [] newlist = new int[newSize];
 			
 			for(int index = 0; index < newlist.length; index++) {
+				
 				newlist[index]=list[index];
 			}
 			
